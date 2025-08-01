@@ -1,39 +1,42 @@
 {
   "expo": {
-    "name": "my-expo-app",
+    "name": "FaresAi",
     "slug": "my-expo-app",
     "version": "1.0.0",
-
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/faresAi.jpg"
     },
-
     "experiments": {
       "tsconfigPaths": true
     },
-
     "plugins": [],
-
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-
+    "icon": "./assets/faresAi.jpg",
     "userInterfaceStyle": "automatic",
-
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/faresAi.jpg",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/faresAi.jpg",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.fareshouidi.myexpoapp"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2e264151-6996-4b9c-bb35-14996012b7fb"
       }
-    }
+    },
+    "owner": "fareshouidi"
   }
 }

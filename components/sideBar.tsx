@@ -48,6 +48,7 @@ const SideBar = ({
       });
 
       socket.on('get-updated-conversation', (updatedConversation: ConversationParams) => {
+        
         if (updatedConversation && conversations) {
           setConversations(conversations.map((c) => {
             return c._id == updatedConversation._id ? updatedConversation : c
