@@ -4,14 +4,14 @@
     "slug": "my-expo-app",
     "version": "1.0.0",
     "web": {
-      "favicon": "./assets/faresAi.jpg"
+      "favicon": "./assets/logo.jpg"
     },
     "experiments": {
       "tsconfigPaths": true
     },
     "plugins": [],
     "orientation": "portrait",
-    "icon": "./assets/faresAi.jpg",
+    "icon": "./assets/logo.jpg",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": [
       "**/*"
@@ -22,7 +22,7 @@
     "android": {
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/faresAi.jpg",
+        "foregroundImage": "./assets/logo.jpg",
         "resizeMode": "cover",
         "backgroundColor": "#ffffff"
       },
