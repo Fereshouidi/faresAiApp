@@ -80,7 +80,7 @@ const ChatScreen = ({
       }
 
     }, [userMessage, messages.length, activeConversation._id, activeModel.model]);
-  
+
   return (
     <SafeAreaView className='w-full h-full flex items-center' style={{width}}>
       

@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import Swiper from 'react-native-swiper';
 import SideBar from '@/components/sideBar';
 import CustomSwiper from '@/components/customSwipper';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { use, useContext, useEffect, useRef, useState } from 'react';
 import ChatScreen from '@/components/chatScrean';
 import { ConversationParams, HomeParams, MessageParams } from '@/types';
 import { newConversation } from '@/constent';
@@ -91,7 +91,15 @@ const Home = ({ navigation }: HomeParams) => {
 
   }, [activeConversation._id, url])
 
+  useEffect(() => {
+    console.log({isAtTop});
+  }, [isAtTop])
+
     useEffect(() => {
+    
+    console.log({isAtTop});
+    
+    if (!isAtTop) return;
 
     setLoadingGettingOldestMessages(true);
 
@@ -104,8 +112,14 @@ const Home = ({ navigation }: HomeParams) => {
         }
       })
       .then(data => {
-
+        console.log({
+          skip,
+          restOfMessages: data
+        });
+        
         const reversedMessages = data.data.slice.reverse();
+        console.log({reversedMessages});
+        
         setIsAtTop(false);
 
         setMessages( prev => [
@@ -150,8 +164,7 @@ const Home = ({ navigation }: HomeParams) => {
 
   return (
 
-      <SafeAreaView className={` w-full h-full bg-whiteScale-100 dark:bg-blackScale-100`}>
-
+      <SafeAreaView className={` w-full h-full bg-whiteScale-400 dark:bg-blackScale-400`}>
 
         <CustomSwiper
           currentIndex={currentIndex}

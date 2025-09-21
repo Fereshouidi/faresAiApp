@@ -1,29 +1,34 @@
 import { colors } from '@/constent'
-import { StatusBannerParams } from '@/types'
+import { StatusBannerParams, StatusBannerParams_ } from '@/types'
 import LottieView from 'lottie-react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { TouchableOpacity, useColorScheme, View, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context';
+// import { StatusBannerContext } from '@/contexts';
 
 const StatusBanner = ({
     className,
     text,
     visibility,
-    setVisibility,
+    onPress,
     status,
-}: StatusBannerParams) => {
+}: StatusBannerParams_) => {
 
     const theme = useColorScheme(); 
     const isDark = theme === 'dark';
+    // const setBanner = useContext(StatusBannerContext)?.setBanner;
+
+    // if (!onPress) return console.log({onPress});
+     
 
   {return (
     <TouchableOpacity
         className={`w-full h-full flex justify-center items-center absolute top-0 left-0 bg-whiteAlpha-700 dark:bg-blackAlpha-700`}
         style={{
             zIndex: 250,
-            // display: visibility ? 'flex' : 'none'
+            display: visibility ? 'flex' : 'none'
         }}
-        onPress={() => setVisibility(false)} 
+        onPress={onPress} 
     >
 
         <View 
@@ -35,7 +40,15 @@ const StatusBanner = ({
         >
             
            <LottieView
-                source={status == 'success' ? require('@/assets/Success.json') : require('@/assets/fail.json')}
+                source={
+                    status == 'success' ? 
+                        require('@/assets/Success.json') : 
+                    status == 'fail' ?
+                        require('@/assets/fail.json') : 
+                    status == 'exclamation' ?
+                        require('@/assets/AlertIconExclamation.json') :
+                    require('@/assets/AlertIconExclamation.json')
+                    }
                 autoPlay
                 loop={false}
                 style={{ width: 200, height: 200, marginBottom: 25 }}

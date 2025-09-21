@@ -6,7 +6,6 @@ import Welcome from "@/(root)/auth/welcome";
 import SignUp from "./(root)/auth/SignUp";
 import SignIn from "./(root)/auth/SignIn";
 import Home from "./(root)/Home";
-
 import { createNavigationContainerRef, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { getUserBySignIn, url } from "./api/crud";
@@ -21,9 +20,13 @@ import LoadingScreen from "./components/loadingScreen";
 import useKeyboardHeight from "./helper/useKeyboardHeight";
 import axios from "axios";
 import { UserContext } from "./contexts";
-import { RootStackParamList, UserParams } from "./types";
+import { RootStackParamList, StatusBannerParams, UserParams } from "./types";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Setting from "./(root)/setting";
+import { StatusBannerContext } from "./contexts";
+import { LoadingScreanContext } from "./contexts";
+import StatusBanner from "./components/statusBanner";
+import SplashScreen from "./components/splashScreen";
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -36,23 +39,38 @@ const App = () => {
   const [activeLanguage, setActiveLanguage] = useState<typeof eng | typeof ar>(eng);
   const keyboardHeight = useKeyboardHeight();
 
+  const [statusBanner, setStatusBanner] = useState<StatusBannerParams>({});
+  const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
+  const [splashScreen, setSplashScreenScreen] = useState<boolean>(false);
+
+  const handleStatusBanner = (
+    visibility?:boolean,
+    text?: string,
+    status?: 'success' | 'fail' | 'exclamation'
+  ) => {
+    setStatusBanner({
+      visibility,
+      text,
+      status,
+  })
+  }
     
+  const handleLoadingScrean = (visibility: boolean) => {
+    setLoadingScreen(visibility);
+  }
+  
   useEffect(() => {
 
     const fetchData = async () => {
       const res = await axios.get(url + `/getUserByToken`, {
         params: {token: userToken}
       });
-      console.log({userToken});
-      console.log("the res : ");
       
       const user = res.data.user as UserParams;
       user && setUserData(user);
+      
     }
-    console.log(1);
-
     fetchData();
-    console.log(2);
     
 
   }, [userToken])
@@ -85,43 +103,73 @@ const App = () => {
   //   removeData()
   // }, [])
 
+  // useEffect(() => {
+
+  //   if (loading) {
+  //     setSplashScreenScreen(true);
+  //     setTimeout(() => {
+  //         setSplashScreenScreen(false);
+  //         setLoadingScreen(true);
+  //     }, 2000)
+  //   }
+
+  // }, [loading])
+
   if (loading) {
-    return (
-      <LoadingScreen/>
-    )
+    return <SplashScreen/>
   }
 
   if (!loading) {
+      
+      // setLoadingScreen(false);
       return (
-        <View className="w-full h-full"  style={{paddingBottom: keyboardHeight}} >
+        <View className="w-full h-full relative"  style={{paddingBottom: keyboardHeight}} >
         
-          <View className={`w-full h-10 bg-whiteScale-100 dark:bg-blackScale-100`}/>
+          <View className={`w-full h-12 bg-whiteScale-400 dark:bg-blackScale-400`}/>
 
-          <LanguageContext.Provider value={{activeLangue: activeLanguage, setActiveEnglish: setActiveLanguage}}>
-            
-            <UserTokenContext.Provider value={{userToken, setUserToken}}>
-              
-              <UserContext.Provider value={userData}>
+            <LoadingScreanContext.Provider value={handleLoadingScrean}>
 
-                <NavigationContainer ref={navigationRef}>
+              <StatusBannerContext.Provider value={handleStatusBanner}>
 
-                  <Stack.Navigator initialRouteName= {userToken ? "home" : "signIn"}  screenOptions={{ headerShown: false }}>
-
-                    <Stack.Screen name="home" component={Home} />
-                    <Stack.Screen name="welcome" component={Welcome} />
-                    <Stack.Screen name="setting" component={Setting} />
-                    <Stack.Screen name="signUp" component={SignUp} />
-                    <Stack.Screen name="signIn" component={SignIn} />
+                <LanguageContext.Provider value={{activeLangue: activeLanguage, setActiveEnglish: setActiveLanguage}}>
                   
-                  </Stack.Navigator>
+                  <UserTokenContext.Provider value={{userToken, setUserToken}}>
+                    
+                    <UserContext.Provider value={userData}>
 
-                </NavigationContainer>
+                      <NavigationContainer ref={navigationRef}>
 
-              </UserContext.Provider>
+                        <Stack.Navigator initialRouteName= {userToken ? "home" : "signIn"}  screenOptions={{ headerShown: false }}>
 
-            </UserTokenContext.Provider>
+                          <Stack.Screen name="home" component={Home} />
+                          <Stack.Screen name="welcome" component={Welcome} />
+                          <Stack.Screen name="setting" component={Setting} />
+                          <Stack.Screen name="signUp" component={SignUp} />
+                          <Stack.Screen name="signIn" component={SignIn} />
+                        
+                        </Stack.Navigator>
 
-          </LanguageContext.Provider>
+                      </NavigationContainer>
+
+                    </UserContext.Provider>
+
+                  </UserTokenContext.Provider>
+
+                </LanguageContext.Provider>
+                
+              </StatusBannerContext.Provider>
+
+            </LoadingScreanContext.Provider>
+
+          <StatusBanner
+            visibility={statusBanner?.visibility}
+            text={statusBanner?.text}
+            status={statusBanner?.status}
+            onPress={() => handleStatusBanner(false)}
+          />
+          {loadingScreen && <LoadingScreen/>}
+
+          {splashScreen && <SplashScreen/>}
 
           <StatusBar style="auto" />
 

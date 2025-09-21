@@ -1,9 +1,10 @@
 import { MessagesSectionParams } from '@/types';
-import React, { use, useEffect, useRef } from 'react'
+import React, { use, useContext, useEffect, useRef } from 'react'
 import { View, Text, ScrollView, Dimensions, NativeSyntheticEvent, NativeScrollEvent, FlatList } from 'react-native'
 import LoadingScreen from './loadingScreen';
 import LottieView from 'lottie-react-native';
 import LoadingIcon from './loadingIcon';
+import { LoadingScreanContext } from '@/contexts';
 
 const MessagesSection = ({
   messages,
@@ -18,6 +19,13 @@ const MessagesSection = ({
 }: MessagesSectionParams) => {
 
   const flatListRef = useRef<FlatList>(null);
+  const setLoadingScreen = useContext(LoadingScreanContext);
+
+  // useEffect(() => {
+  //   setLoadingScreen(loadingGettingMessages)
+  // }, [loadingGettingMessages])
+
+
 
   return (
     <>
@@ -27,7 +35,8 @@ const MessagesSection = ({
         keyExtractor={(item, index) => index.toString()}
         ref={flatListRef}
         inverted
-        onEndReached={() => setIsAtTop(true)}
+        onEndReached={() => {setIsAtTop(true)}}
+        onScroll={() => {setIsAtTop(false)}}
         onEndReachedThreshold={0.1}
         ListFooterComponent={<View className='p-7' />}
         contentContainerStyle={{ padding: 16 }}

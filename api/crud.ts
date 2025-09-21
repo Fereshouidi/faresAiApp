@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const url = "https://fares-ai-jsp4.vercel.app/routes";
+export const url = "https://fares-ai-omega.vercel.app/routes";
 
 export const getUserBySignIn = async (email: string, password: string) => {
     try {

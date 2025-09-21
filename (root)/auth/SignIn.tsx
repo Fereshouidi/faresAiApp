@@ -130,7 +130,7 @@ const SignIN = ({ navigation }: SignInProps) => {
         status={signInStatus}
         text={bannerText} 
         visibility={bannerVisibility}
-        setVisibility={setBannerVisibility}
+        // setVisibility={setBannerVisibility}
       />}
 
       {loading && <LoadingScreen/>}

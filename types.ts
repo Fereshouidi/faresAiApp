@@ -155,19 +155,28 @@ export interface SignInFormParams {
 }
 
 export interface StatusBannerParams {
-    className?: string,
-    // content?: ReactNode,
+    visibility?: boolean,
     text?: string,
-    visibility: boolean,
-    setVisibility: (value: boolean) => void,
-    status: 'success' | 'fail',
-    // setStatus?: (value: SignInStatusParams) => void;
+    status?: 'success' | 'fail' | 'exclamation',
 }
 
-// export interface StatusBannerContext {
-//     banner: ,
-//     setBanner: () => void
-// }
+export interface StatusBannerParams_ {
+    className?: string;
+    text?: string;
+    visibility?: boolean;
+    onPress?: (event: GestureResponderEvent) => void;
+    status?: 'success' | 'fail' | 'exclamation';
+}
+
+export interface StatusBannerContextParams {
+    // banner: StatusBannerParams,
+    setBanner: (visibility?: boolean, text?: string, status?: 'success' | 'fail' | 'exclamation') => void
+}
+
+export interface LoadingScreanContextParams {
+    // banner: StatusBannerParams,
+    setBanner: (visibility?: boolean, text?: string, status?: 'success' | 'fail' | 'exclamation') => void
+}
 
 export type SignInStatusParams =
   | 'success'
@@ -240,4 +249,12 @@ export type MessagesSectionParams =  {
 
 export type ConversationOptionsParams = {
   conversation: ConversationParams
+  allConversations: ConversationParams[],
+  setAllConversations: (value: ConversationParams[]) => void
+  activeConversation: ConversationParams,
+  setActiveConversation: (value: ConversationParams) => void
+  conversationToEdit: string | null, 
+  setConversationToEdit: (value: string | null) => void
+  activeOptions: string | null
+  setActiveOptions: (value: string | null) => void
 }
